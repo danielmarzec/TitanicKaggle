@@ -7,6 +7,3 @@ def getTitle(name):
 	first, last = splitName(name)
 	title = first[:first.index('.')]
 	return title
-
-def printHey():
-	print 'Hey'
