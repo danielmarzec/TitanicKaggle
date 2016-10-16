@@ -108,8 +108,8 @@ test["Sex"][test["Sex"] == "female"] = 1
 test["Age"]= test['Age'].fillna(train['Age'].median())
 
 test['Child'] = float('NaN')
-test["Child"][test["Age"]<18] = 1
-test["Child"][test["Age"]>=18] = 0
+test["Child"][test["Age"]<11] = 1
+test["Child"][test["Age"]>=11] = 0
 
 #more data cleaning inserted here
 #
@@ -123,18 +123,23 @@ test["Child"][test["Age"]>=18] = 0
 train["Group"] = train['SibSp'] + train['Parch'] + 1
 test["Group"]= test['SibSp'] + test['Parch'] + 1
 
+#creating Family_size
 
-'''
+
+
+
 #ended up not using this
 #create feature called Group_size
-train["Group_size"]= int(2)
+train["Group_size"]= int(1)
 train["Group_size"][train["Group"]==1]=1
-train["Group_size"][train["Group"]>4]=3
+train["Group_size"][train["Group"]<5 & >1 ]=2
+train["Group_size"][train["Group"]>5]=
 
-test["Group_size"]= int(2)
-test["Group_size"][test["Group"]==1]=1
-test["Group_size"][test["Group"]>4]=3
-'''
+test["Group_size"]= int(1)
+test["Group_size"][test["Group"]==1] = 1
+test["Group_size"][test["Group"]<5 & >1] = 2
+test["Group_size"][test["Group"]>5] = 3
+
 
 
 test.Fare[152] = 14.4542
@@ -142,11 +147,11 @@ test.Fare[152] = 14.4542
 target = train["Survived"].values
 
 #Importing Features that we want 
-features_forest = train[["Pclass", "Age", "Sex","SibSp","Parch", "TitleNum", 'Child']].values
+features_forest = train[["Pclass", "Age", "Sex","Fare","Child","Group_size"]].values
 target = train["Survived"].values
 
 # Building and fitting my_forest
-forest = RandomForestClassifier(max_depth = 20, min_samples_split=2, n_estimators = 200, random_state = 1)
+forest = RandomForestClassifier(max_depth = 20, min_samples_split=2, n_estimators = 100, random_state = 1)
 my_forest = forest.fit(features_forest, target)
 
 # Print the score of the random fitted forest
@@ -155,7 +160,7 @@ print(my_forest.score(features_forest, target))
 
 # Compute predictions on our test set features then print the length of the prediction vector
 target = train["Survived"].values
-test_features = test[["Pclass", "Age", "Sex","SibSp","Parch", "TitleNum", 'Child']].values
+test_features = test[["Pclass", "Age", "Sex","Fare","Child","Group_size"]].values
 pred_forest = my_forest.predict(test_features)
 print("Length of Prediction Vector: ")
 print(len(pred_forest))
