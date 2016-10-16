@@ -28,14 +28,14 @@ train['TitleNum'][train['Title'] == 'Mrs'] = 2
 train['TitleNum'][train['Title'] == 'Master'] = 3
 
 #assign masters to age = 10
-train["Age"][train["TitleNum"]=3]= median([train["TitleNum"]=3])
+train["Age"]= 10
 
 #Assign 1 to passengers under 18 and 0 to older 
 train["Child"][train["Age"]<18] = 1
 train["Child"][train["Age"]>=18] = 0
 
 
-train["Age"][train["TitleNum"]=3]=1
+train["Age"][train["TitleNum"]==3]=1
 
 #converting male and female to integers
 train["Sex"][train["Sex"] == "male"] = 0
