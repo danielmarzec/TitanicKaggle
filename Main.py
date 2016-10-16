@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from sklearn.ensemble import RandomForestClassifier
+
 
 # Load and create test and train data frames
 train_url = "http://s3.amazonaws.com/assets.datacamp.com/course/Kaggle/train.csv"
@@ -8,10 +8,6 @@ train = pd.read_csv(train_url)
 
 test_url = "http://s3.amazonaws.com/assets.datacamp.com/course/Kaggle/test.csv"
 test = pd.read_csv(test_url)
-
-#Print the `head` of the train and test dataframes
-print(train.head())
-print(test.head())
 
 #create child column
 train["Child"]= float('NaN')
@@ -36,6 +32,7 @@ train['TitleNum'][train['Title'] == 'Master'] = 3
 #Assign 1 to passengers under 18 and 0 to older 
 train["Child"][train["Age"]<18] = 1
 train["Child"][train["Age"]>=18] = 0
+train["Child"][train["TitleNum"]=3] = 1
 
 #converting male and female to integers
 train["Sex"][train["Sex"] == "male"] = 0
@@ -58,8 +55,13 @@ train["Embarked"][train["Embarked"] == "Q"] = 2
 #####
 ######
 
+<<<<<<< Updated upstream
 test.Fare[152] = 14.4542
+=======
+>>>>>>> Stashed changes
 
+
+'''
 #Importing Features that we want 
 features_forest = train[["Pclass", "Age", "Sex", "Fare", "SibSp", "Parch", "Embarked"]].values
 target = train["Survived"].values
@@ -91,4 +93,5 @@ print(my_tree_two.score(features_two, target))
 print("mean accuracry score for my_forest")
 print(my_forest.score(features_forest,target))
 
+'''
 
