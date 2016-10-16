@@ -130,15 +130,13 @@ test["Group"]= test['SibSp'] + test['Parch'] + 1
 
 #ended up not using this
 #create feature called Group_size
-train["Group_size"]= int(1)
-train["Group_size"][train["Group"]==1]=1
-train["Group_size"][train["Group"]<5 & >1 ]=2
-train["Group_size"][train["Group"]>5]=
+train["Group_size"]= 2
+train["Group_size"][train["Group"] == 1] = 1
+train["Group_size"][train["Group"] > 5]= 3
 
-test["Group_size"]= int(1)
-test["Group_size"][test["Group"]==1] = 1
-test["Group_size"][test["Group"]<5 & >1] = 2
-test["Group_size"][test["Group"]>5] = 3
+test["Group_size"]= 2
+test["Group_size"][test["Group"] == 1] = 1
+test["Group_size"][test["Group"] > 5] = 3
 
 
 
