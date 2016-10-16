@@ -87,6 +87,9 @@ test["Age"]= test['Age'].fillna(train['Age'].median())
 #####
 ######
 
+#create group column
+train["Group"]= 'SibSp' + 'Parch' + 1
+
 
 test.Fare[152] = 14.4542
 
