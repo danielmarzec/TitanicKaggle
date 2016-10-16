@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-#from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestClassifier
 import HelpingFunctions as hf
 import re
 
@@ -53,6 +53,32 @@ train["Embarked"][train["Embarked"] == "S"] = 0
 train["Embarked"][train["Embarked"] == "C"] = 1
 train["Embarked"][train["Embarked"] == "Q"] = 2
 
+'''
+ticket_groups = dict()
+for i in range(891):
+	if ticket_groups.has_key(train.Ticket[i]):
+		ticket_groups[train.Ticket[i]] = ticket_groups[train.Ticket[i]] + 1
+	else:
+		ticket_groups[train.Ticket[i]] = 1
+
+train['Group'] = float('NaN')
+
+for i in range(891):
+	train.Group[i] = ticket_groups[train.Ticket[i]]
+
+ticket_groups = dict()
+for i in range(417):
+	if ticket_groups.has_key(test.Ticket[i]):
+		ticket_groups[test.Ticket[i]] = ticket_groups[test.Ticket[i]] + 1
+	else:
+		ticket_groups[test.Ticket[i]] = 1
+
+test['Group'] = float('NaN')
+
+for i in range(417):
+	test.Group[i] = ticket_groups[test.Ticket[i]]
+'''
+
 #Gets a dictionary count of all the different titles
 titles = dict()
 for i in range(417):
@@ -94,7 +120,7 @@ test["Child"][test["Age"]>=18] = 0
 ######
 
 #create group column
-train["Group"]= train['SibSp'] + train['Parch'] + 1
+train["Group"] = train['SibSp'] + train['Parch'] + 1
 test["Group"]= test['SibSp'] + test['Parch'] + 1
 
 
@@ -113,10 +139,10 @@ test["Group_size"][test["Group"]>4]=3
 
 test.Fare[152] = 14.4542
 
-
+target = train["Survived"].values
 
 #Importing Features that we want 
-features_forest = train[["Pclass", "Age", "Sex","SibSp","Parch", "TitleNum", 'Child','Room']].values
+features_forest = train[["Pclass", "Age", "Sex","SibSp","Parch", "TitleNum", 'Child']].values
 target = train["Survived"].values
 
 # Building and fitting my_forest
@@ -129,7 +155,7 @@ print(my_forest.score(features_forest, target))
 
 # Compute predictions on our test set features then print the length of the prediction vector
 target = train["Survived"].values
-test_features = test[["Pclass", "Age", "Sex","SibSp","Parch", "TitleNum", 'Child','Room']].values
+test_features = test[["Pclass", "Age", "Sex","SibSp","Parch", "TitleNum", 'Child']].values
 pred_forest = my_forest.predict(test_features)
 print("Length of Prediction Vector: ")
 print(len(pred_forest))
