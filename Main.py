@@ -1,5 +1,7 @@
 import pandas as pd
 import numpy as np
+from sklearn.ensemble import RandomForestClassifier
+import HelpingFunctions as hf
 
 
 # Load and create test and train data frames
@@ -14,12 +16,8 @@ train["Child"]= float('NaN')
 
 #Gets a dictionary count of all the different titles
 titles = dict()
-train['Title'] = 'Nan'
 for i in range(890):
-	if titles.has_key(train.Title[int(i)]):
-		names[train.Title[int(i)]] = names[train.Title[int(i)]] + 1
-	else:
-		names[train.Title[int(i)]] = 1
+	train['Title'] = hf.getTitle(train.Name[int(i)])
 
 #Create TitleNum column
 train['TitleNum'] = 4
@@ -55,13 +53,12 @@ train["Embarked"][train["Embarked"] == "Q"] = 2
 #####
 ######
 
-<<<<<<< Updated upstream
+
 test.Fare[152] = 14.4542
-=======
->>>>>>> Stashed changes
 
 
-'''
+
+
 #Importing Features that we want 
 features_forest = train[["Pclass", "Age", "Sex", "Fare", "SibSp", "Parch", "Embarked"]].values
 target = train["Survived"].values
@@ -93,5 +90,4 @@ print(my_tree_two.score(features_two, target))
 print("mean accuracry score for my_forest")
 print(my_forest.score(features_forest,target))
 
-'''
 
