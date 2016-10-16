@@ -109,4 +109,8 @@ print(pred_forest.score(features_two, target))
 print("mean accuracry score for my_forest")
 print(my_forest.score(features_forest,target))
 
-
+submission = pd.DataFrame({
+        "PassengerId":test_df['PassengerId'],
+        "Survived":y_pred
+    })
+submission.to_csv('titanic.csv',index=False)
