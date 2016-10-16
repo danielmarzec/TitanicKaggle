@@ -28,7 +28,7 @@ train['TitleNum'][train['Title'] == 'Mrs'] = 2
 train['TitleNum'][train['Title'] == 'Master'] = 3
 
 #assign masters to age = 10
-train["Age"]= 10
+train["Age"]= train['Age'].fillna(train['Age'].median())
 
 #Assign 1 to passengers under 18 and 0 to older 
 train["Child"][train["Age"]<18] = 1
