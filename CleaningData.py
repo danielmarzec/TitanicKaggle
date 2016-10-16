@@ -3,8 +3,6 @@
 # Import Libraries 
 import pandas as pd
 import matplotlib.pyplot as plt
-from sklearn import linear_model
-from sklearn import ensemble
 import seaborn as sns
 # Ensures graphs to be displayed in ipynb
 get_ipython().magic(u'matplotlib inline')
