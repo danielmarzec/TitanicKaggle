@@ -1,84 +1,75 @@
-
 import pandas as pd
 import numpy as np
-import csv as csv
 from sklearn.ensemble import RandomForestClassifier
 
-#import train and test data
+# Load and create test and train data frames
 train_url = "http://s3.amazonaws.com/assets.datacamp.com/course/Kaggle/train.csv"
-test_url =  "http://s3.amazonaws.com/assets.datacamp.com/course/Kaggle/test.csv"
+train = pd.read_csv(train_url)
 
-#load train data in train_df
-train_df = pd.read_csv("http://s3.amazonaws.com/assets.datacamp.com/course/Kaggle/train.csv", header=0)      
+test_url = "http://s3.amazonaws.com/assets.datacamp.com/course/Kaggle/test.csv"
+test = pd.read_csv(test_url)
 
-#cleaning data..
+#Print the `head` of the train and test dataframes
+print(train.head())
+print(test.head())
 
-#Replacing male with 0 and female with 1
-train_df['Sex'][train_df['Sex']=='male'] == 0
-train_df['Sex'][train_df['Sex']=='female'] == 1
+#create child column
+train["Child"]= float('NaN')
 
-#Imputing Embarked variable
-train_df["Embarked"] = train_df["Embarked"].fillna("C")
+#Assign 1 to passengers under 18 and 0 to older 
+train["Child"][train["Child"]<18] = 1
+train["Child"][train["Child"]>=18] = 0
 
-#Converting Embarked classes to integers
-train_df["Embarked"][train_df["Embarked"] == "S"] = 0
-train_df["Embarked"][train_df["Embarked"] == "C"] = 1
-train_df["Embarked"][train_df["Embarked"] == "Q"] = 2
+#converting male and female to integers
+train["Sex"][train["Sex"] == "male"] = 0
+train["Sex"][train["Sex"] == "female"] = 1
 
-# All the ages with no data -> make the median of all Ages
-median_age = train_df['Age'].dropna().median()
-if len(train_df.Age[ train_df.Age.isnull() ]) > 0:
-    train_df.loc[ (train_df.Age.isnull()), 'Age'] = median_age
+#filling Embarked values
+train["Embarked"] = train["Embarked"].fillna("C")
 
-#load test data into test_df
-test_df = pd.read_csv(test_url, header=0) 
+#Convert Embarked to Integers
+# Convert the Embarked classes to integer form
+train["Embarked"][train["Embarked"] == "S"] = 0
+train["Embarked"][train["Embarked"] == "C"] = 1
+train["Embarked"][train["Embarked"] == "Q"] = 2
 
-#replace nan fare with median value
-test_df.Fare[152] = test_df.Fare.median()     
+#more data cleaning inserted here
+#
+##
+###
+####
+#####
+######
 
-#Replacing male with 0 and female with 1
-test_df['Sex'][test_df['Sex']=='male'] == 0
-test_df['Sex'][test_df['Sex']=='female'] == 1
+test.Fare[152] = test.Fare.median()
 
-#Imputing Embarked variable
-test_df["Embarked"] = test_df["Embarked"].fillna("C")
+#Importing Features that we want 
+features_forest = train[["Pclass", "Age", "Sex", "Fare", "SibSp", "Parch", "Embarked"]].values
 
-#Converting Embarked classes to integers
-test_df["Embarked"][test_df["Embarked"] == "S"] = 0
-test_df["Embarked"][test_df["Embarked"] == "C"] = 1
-test_df["Embarked"][test_df["Embarked"] == "Q"] = 2
+# Building and fitting my_forest
+forest = RandomForestClassifier(max_depth = 10, min_samples_split=2, n_estimators = 100, random_state = 1)
+my_forest = forest.fit(features_forest, target)
 
+# Print the score of the random fitted forest
+print("Score of Random Forest: ")
+print(my_forest.score(features_forest, target))
 
-# All the ages with no data -> make the median of all Ages
-median_age = test_df['Age'].dropna().median()
-if len(test_df.Age[ test_df.Age.isnull() ]) > 0:
-    test_df.loc[ (test_df.Age.isnull()), 'Age'] = median_age
+# Compute predictions on our test set features then print the length of the prediction vector
+test_features = test[["Pclass", "Age", "Sex", "Fare", "SibSp", "Parch", "Embarked"]].values
+pred_forest = my_forest.predict(test_features)
+print("Length of Prediction Vector: ")
+print(len(pred_forest))
 
-# All the missing Fares -> assume median of their respective class
-if len(test_df.Fare[ test_df.Fare.isnull() ]) > 0:
-    median_fare = np.zeros(3)
-    for f in range(0,3):                                              # loop 0 to 2
-        median_fare[f] = test_df[ test_df.Pclass == f+1 ]['Fare'].dropna().median()
-    for f in range(0,3):                                              # loop 0 to 2
-        test_df.loc[ (test_df.Fare.isnull()) & (test_df.Pclass == f+1 ), 'Fare'] = median_fare[f]
+#Print features importances
+print("my_tree_two feature importance: ")
+print(my_tree_two.features_importances_)
+print("my_forest feature importance: ")
+print(my_forest.feature_importances_)
 
-
-# Convert back to a numpy array
-train_data = train_df.values
-test_data = test_df.values
-
-
-print 'Training...'
-forest = RandomForestClassifier(n_estimators=100)
-forest = forest.fit( train_data[0::,1::], train_data[0::,0] )
-
-print 'Predicting...'
-output = forest.predict(test_data).astype(int)
+#Compute and print the mean accuracy score for both models
+print("mean accuracry score for my_tree_two")
+print(my_tree_two.score(features_two, target))
+print("mean accuracry score for my_forest")
+print(my_forest.score(features_forest,target))
 
 
-predictions_file = open("myfirstforest.csv", "wb")
-open_file_object = csv.writer(predictions_file)
-open_file_object.writerow(["PassengerId","Survived"])
-open_file_object.writerows(zip(ids, output))
-predictions_file.close()
-print 'Done.'
