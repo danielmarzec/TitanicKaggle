@@ -55,6 +55,7 @@ print("Score of Random Forest: ")
 print(my_forest.score(features_forest, target))
 
 # Compute predictions on our test set features then print the length of the prediction vector
+target = train["Survived"].values
 test_features = test[["Pclass", "Age", "Sex", "Fare", "SibSp", "Parch", "Embarked"]].values
 pred_forest = my_forest.predict(test_features)
 print("Length of Prediction Vector: ")
