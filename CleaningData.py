@@ -5,7 +5,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 # Ensures graphs to be displayed in ipynb
-get_ipython().magic(u'matplotlib inline')
+#get_ipython().magic(u'matplotlib inline')
 #import train and test data
 train_url = "http://s3.amazonaws.com/assets.datacamp.com/course/Kaggle/train.csv"
 test_url =  "http://s3.amazonaws.com/assets.datacamp.com/course/Kaggle/test.csv"
@@ -55,5 +55,4 @@ train['TitleNum'][train['Title'] == 'Ms'] = 1
 train['TitleNum'][train['Title'] == 'Mrs'] = 2
 train['TitleNum'][train['Title'] == 'Master'] = 3
 
-
-
+print train

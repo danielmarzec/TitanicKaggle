@@ -16,9 +16,26 @@ print(test.head())
 #create child column
 train["Child"]= float('NaN')
 
+#Gets a dictionary count of all the different titles
+titles = dict()
+train['Title'] = 'Nan'
+for i in range(890):
+	if titles.has_key(train.Title[int(i)]):
+		names[train.Title[int(i)]] = names[train.Title[int(i)]] + 1
+	else:
+		names[train.Title[int(i)]] = 1
+
+#Create TitleNum column
+train['TitleNum'] = 4
+train['TitleNum'][train['Title'] == 'Mr'] = 0
+train['TitleNum'][train['Title'] == 'Miss'] = 1
+train['TitleNum'][train['Title'] == 'Ms'] = 1
+train['TitleNum'][train['Title'] == 'Mrs'] = 2
+train['TitleNum'][train['Title'] == 'Master'] = 3
+
 #Assign 1 to passengers under 18 and 0 to older 
-train["Child"][train["Child"]<18] = 1
-train["Child"][train["Child"]>=18] = 0
+train["Child"][train["Age"]<18] = 1
+train["Child"][train["Age"]>=18] = 0
 
 #converting male and female to integers
 train["Sex"][train["Sex"] == "male"] = 0
@@ -41,7 +58,7 @@ train["Embarked"][train["Embarked"] == "Q"] = 2
 #####
 ######
 
-test.Fare[152] = test.Fare.median()
+test.Fare[152] = 14.4542
 
 #Importing Features that we want 
 features_forest = train[["Pclass", "Age", "Sex", "Fare", "SibSp", "Parch", "Embarked"]].values
