@@ -95,13 +95,18 @@ test["Child"][test["Age"]>=18] = 0
 train["Group"]= train['SibSp'] + train['Parch'] + 1
 test["Group"]= test['SibSp'] + test['Parch'] + 1
 
+#create feature called Group_size
+train["Group_size"]= int(2)
+train["Group_size"][train["Group"]==1]=1
+train["Group_size"][train["Group"]>4]=3
+
+
 test.Fare[152] = 14.4542
 
 
 
-
 #Importing Features that we want 
-features_forest = train[["Pclass", "Age", "Sex", "Fare", "Group", "TitleNum", 'Child']].values
+features_forest = train[["Pclass", "Age", "Sex","Sibsp","Parch", "Group_size", "TitleNum", 'Child']].values
 target = train["Survived"].values
 
 # Building and fitting my_forest
@@ -114,7 +119,7 @@ print(my_forest.score(features_forest, target))
 
 # Compute predictions on our test set features then print the length of the prediction vector
 target = train["Survived"].values
-test_features = test[["Pclass", "Age", "Sex", "Fare", "Group", "TitleNum", 'Child']].values
+test_features = test[["Pclass", "Age", "Sex","Sibsp","Parch", "Group_size", "TitleNum", 'Child']].values
 pred_forest = my_forest.predict(test_features)
 print("Length of Prediction Vector: ")
 print(len(pred_forest))
