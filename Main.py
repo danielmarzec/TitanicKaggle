@@ -98,14 +98,14 @@ print("Length of Prediction Vector: ")
 print(len(pred_forest))
 
 #Print features importances
-print("my_tree_two feature importance: ")
+print("pred_forest feature importance: ")
 print(my_tree_two.features_importances_)
 print("my_forest feature importance: ")
 print(my_forest.feature_importances_)
 
 #Compute and print the mean accuracy score for both models
 print("mean accuracry score for my_tree_two")
-print(my_tree_two.score(features_two, target))
+print(pred_forest.score(features_two, target))
 print("mean accuracry score for my_forest")
 print(my_forest.score(features_forest,target))
 
