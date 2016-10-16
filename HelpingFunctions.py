@@ -5,5 +5,7 @@ def splitName(name):
 
 def getTitle(name):
 	first, last = splitName(name)
+	if '.' not in first:
+		return 'Nan'
 	title = first[:first.index('.')]
 	return title

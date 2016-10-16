@@ -41,5 +41,11 @@ full['Group_size'] = pd.Series('M', index=full.index)
 _ = full.set_value(full.Group_num>4, 'Group_size', 'L')
 _ = full.set_value(full.Group_num==1, 'Group_size', 'S')
 
-
+#Gets a dictionary count of all the different titles
+titles = dict()
+for i in range(890):
+	if titles.has_key(train.Title[int(i)]):
+		names[train.Title[int(i)]] = names[train.Title[int(i)]] + 1
+	else:
+		names[train.Title[int(i)]] = 1 
 
