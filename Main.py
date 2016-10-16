@@ -45,6 +45,7 @@ test.Fare[152] = test.Fare.median()
 
 #Importing Features that we want 
 features_forest = train[["Pclass", "Age", "Sex", "Fare", "SibSp", "Parch", "Embarked"]].values
+target = train["Survived"].values
 
 # Building and fitting my_forest
 forest = RandomForestClassifier(max_depth = 10, min_samples_split=2, n_estimators = 100, random_state = 1)
