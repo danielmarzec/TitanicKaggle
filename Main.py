@@ -45,10 +45,25 @@ train["Sex"][train["Sex"] == "female"] = 1
 train["Embarked"] = train["Embarked"].fillna("C")
 
 #Convert Embarked to Integers
+
+
 # Convert the Embarked classes to integer form
 train["Embarked"][train["Embarked"] == "S"] = 0
 train["Embarked"][train["Embarked"] == "C"] = 1
 train["Embarked"][train["Embarked"] == "Q"] = 2
+
+#Gets a dictionary count of all the different titles
+titles = dict()
+for i in range(890):
+	train['Title'] = hf.getTitle(train.Name[int(i)])
+
+#Create TitleNum column
+test['TitleNum'] = 4
+test['TitleNum'][test['Title'] == 'Mr'] = 0
+test['TitleNum'][test['Title'] == 'Miss'] = 1
+test['TitleNum'][test['Title'] == 'Ms'] = 1
+test['TitleNum'][test['Title'] == 'Mrs'] = 2
+test['TitleNum'][test['Title'] == 'Master'] = 3
 
 #filling Embarked values
 test["Embarked"] = test["Embarked"].fillna("C")
@@ -79,7 +94,7 @@ test.Fare[152] = 14.4542
 
 
 #Importing Features that we want 
-features_forest = train[["Pclass", "Age", "Sex", "Fare", "SibSp", "Parch", "Embarked"]].values
+features_forest = train[["Pclass", "Age", "Sex", "Fare", "SibSp", "Parch", "TitleNum"]].values
 target = train["Survived"].values
 
 # Building and fitting my_forest
@@ -92,25 +107,21 @@ print(my_forest.score(features_forest, target))
 
 # Compute predictions on our test set features then print the length of the prediction vector
 target = train["Survived"].values
-test_features = test[["Pclass", "Age", "Sex", "Fare", "SibSp", "Parch", "Embarked"]].values
+test_features = test[["Pclass", "Age", "Sex", "Fare", "SibSp", "Parch", "TitleNum"]].values
 pred_forest = my_forest.predict(test_features)
 print("Length of Prediction Vector: ")
 print(len(pred_forest))
 
 #Print features importances
-print("pred_forest feature importance: ")
-print(pred_forest.features_importances_)
 print("my_forest feature importance: ")
 print(my_forest.feature_importances_)
 
 #Compute and print the mean accuracy score for both models
-print("mean accuracry score for pred_forest")
-print(pred_forest.score(features_two, target))
 print("mean accuracry score for my_forest")
 print(my_forest.score(features_forest,target))
 
 submission = pd.DataFrame({
-        "PassengerId":test_df['PassengerId'],
-        "Survived":y_pred
+        "PassengerId":test['PassengerId'],
+        "Survived":pred_forest
     })
 submission.to_csv('titanic.csv',index=False)
