@@ -54,8 +54,8 @@ train["Embarked"][train["Embarked"] == "Q"] = 2
 
 #Gets a dictionary count of all the different titles
 titles = dict()
-for i in range(890):
-	train['Title'] = hf.getTitle(train.Name[int(i)])
+for i in range(417):
+	test['Title'] = hf.getTitle(test.Name[int(i)])
 
 #Create TitleNum column
 test['TitleNum'] = 4
@@ -88,7 +88,7 @@ test["Age"]= test['Age'].fillna(train['Age'].median())
 ######
 
 #create group column
-train["Group"]= 'SibSp' + 'Parch' + 1
+train["Group"]= int(train['SibSp']) + int(train['Parch']) + 1
 
 
 test.Fare[152] = 14.4542
