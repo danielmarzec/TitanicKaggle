@@ -79,6 +79,10 @@ test["Sex"][test["Sex"] == "female"] = 1
 
 test["Age"]= test['Age'].fillna(train['Age'].median())
 
+test['Child'] = float('NaN')
+test["Child"][test["Age"]<18] = 1
+test["Child"][test["Age"]>=18] = 0
+
 #more data cleaning inserted here
 #
 ##
@@ -88,8 +92,8 @@ test["Age"]= test['Age'].fillna(train['Age'].median())
 ######
 
 #create group column
-train["Group"]= int(train['SibSp']) + int(train['Parch']) + 1
-
+train["Group"]= train['SibSp'] + train['Parch'] + 1
+test["Group"]= test['SibSp'] + test['Parch'] + 1
 
 test.Fare[152] = 14.4542
 
@@ -97,7 +101,7 @@ test.Fare[152] = 14.4542
 
 
 #Importing Features that we want 
-features_forest = train[["Pclass", "Age", "Sex", "Fare", "SibSp", "Parch", "TitleNum"]].values
+features_forest = train[["Pclass", "Age", "Sex", "Fare", "Group", "TitleNum", 'Child']].values
 target = train["Survived"].values
 
 # Building and fitting my_forest
@@ -110,7 +114,7 @@ print(my_forest.score(features_forest, target))
 
 # Compute predictions on our test set features then print the length of the prediction vector
 target = train["Survived"].values
-test_features = test[["Pclass", "Age", "Sex", "Fare", "SibSp", "Parch", "TitleNum"]].values
+test_features = test[["Pclass", "Age", "Sex", "Fare", "Group", "TitleNum", 'Child']].values
 pred_forest = my_forest.predict(test_features)
 print("Length of Prediction Vector: ")
 print(len(pred_forest))
