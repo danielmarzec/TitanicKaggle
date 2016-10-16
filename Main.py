@@ -145,11 +145,11 @@ test.Fare[152] = 14.4542
 target = train["Survived"].values
 
 #Importing Features that we want 
-features_forest = train[["Pclass", "Age", "Sex","Fare","Group_size","Child"]].values
+features_forest = train[["Pclass", "Age", "Sex","Fare","Group_size"]].values
 target = train["Survived"].values
 
 # Building and fitting my_forest
-forest = RandomForestClassifier(max_depth = 7, min_samples_split=2, n_estimators = 1500, random_state = 1)
+forest = RandomForestClassifier(max_depth = 6, min_samples_split=2, n_estimators = 1500, random_state = 1)
 my_forest = forest.fit(features_forest, target)
 
 # Print the score of the random fitted forest
@@ -158,7 +158,7 @@ print(my_forest.score(features_forest, target))
 
 # Compute predictions on our test set features then print the length of the prediction vector
 target = train["Survived"].values
-test_features = test[["Pclass", "Age", "Sex","Fare","Group_size","Child"]].values
+test_features = test[["Pclass", "Age", "Sex","Fare","Group_size"]].values
 pred_forest = my_forest.predict(test_features)
 print("Length of Prediction Vector: ")
 print(len(pred_forest))
