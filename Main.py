@@ -34,7 +34,7 @@ if len(train_df.Age[ train_df.Age.isnull() ]) > 0:
 test_df = pd.read_csv(test_url, header=0) 
 
 #replace nan fare with median value
-test_df.Fare[152] = test.Fare.median()     
+test_df.Fare[152] = test_df.Fare.median()     
 
 #Replacing male with 0 and female with 1
 test_df['Sex'][test_df['Sex']=='male'] == 0
