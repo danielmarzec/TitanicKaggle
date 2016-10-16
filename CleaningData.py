@@ -47,5 +47,15 @@ for i in range(890):
 	if titles.has_key(train.Title[int(i)]):
 		names[train.Title[int(i)]] = names[train.Title[int(i)]] + 1
 	else:
-		names[train.Title[int(i)]] = 1 
+		names[train.Title[int(i)]] = 1
+
+#Changes all titles to an integer value
+train['TitleNum'] = 4
+train['TitleNum'][train['Title'] == 'Mr'] = 0
+train['TitleNum'][train['Title'] == 'Miss'] = 1
+train['TitleNum'][train['Title'] == 'Ms'] = 1
+train['TitleNum'][train['Title'] == 'Mrs'] = 2
+train['TitleNum'][train['Title'] == 'Master'] = 3
+
+
 
