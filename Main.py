@@ -50,6 +50,20 @@ train["Embarked"][train["Embarked"] == "S"] = 0
 train["Embarked"][train["Embarked"] == "C"] = 1
 train["Embarked"][train["Embarked"] == "Q"] = 2
 
+#filling Embarked values
+test["Embarked"] = test["Embarked"].fillna("C")
+
+#Convert Embarked to Integers
+# Convert the Embarked classes to integer form
+test["Embarked"][test["Embarked"] == "S"] = 0
+test["Embarked"][test["Embarked"] == "C"] = 1
+test["Embarked"][test["Embarked"] == "Q"] = 2
+
+test["Sex"][test["Sex"] == "male"] = 0
+test["Sex"][test["Sex"] == "female"] = 1
+
+test["Age"]= test['Age'].fillna(train['Age'].median())
+
 #more data cleaning inserted here
 #
 ##
