@@ -151,7 +151,7 @@ features_forest = train[["Pclass", "Age", "Sex","Fare","Child","Group_size"]].va
 target = train["Survived"].values
 
 # Building and fitting my_forest
-forest = RandomForestClassifier(max_depth = 20, min_samples_split=2, n_estimators = 100, random_state = 1)
+forest = RandomForestClassifier(max_depth = 15, min_samples_split=2, n_estimators = 100, random_state = 1)
 my_forest = forest.fit(features_forest, target)
 
 # Print the score of the random fitted forest
