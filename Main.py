@@ -29,7 +29,7 @@ train['TitleNum'][train['Title'] == 'Mrs'] = 2
 train['TitleNum'][train['Title'] == 'Master'] = 3
 
 #assign masters to age = 10
-train["Age"]= train['Age'].fillna(train['Age'].median())
+train["Age"]= train['Age'].fillna(train['Age'].mean())
 
 #Assign 1 to passengers under 18 and 0 to older 
 train["Child"][train["Age"]<18] = 1
@@ -106,7 +106,7 @@ test["Embarked"][test["Embarked"] == "Q"] = 2
 test["Sex"][test["Sex"] == "male"] = 0
 test["Sex"][test["Sex"] == "female"] = 1
 
-test["Age"]= test['Age'].fillna(train['Age'].median())
+test["Age"]= test['Age'].fillna(train['Age'].mean())
 
 test['Child'] = float('NaN')
 test["Child"][test["Age"]<11] = 1
@@ -148,11 +148,11 @@ target = train["Survived"].values
 
 
 #Importing Features that we want 
-features_forest = train[["Pclass", "Age", "Sex","Fare", 'Group_size', 'SibSp', 'Parch', 'Embarked', 'TitleNum', 'Child', 'Group']].values
+features_forest = train[["Pclass", "Age", "Sex","Fare"]].values
 target = train["Survived"].values
 
 # Building and fitting my_forest
-forest = RandomForestClassifier(max_depth = 12, min_samples_split=3, n_estimators = 1500, random_state = 1)
+forest = RandomForestClassifier(max_depth = 5, min_samples_split=4, n_estimators = 1500, random_state = 1)
 my_forest = forest.fit(features_forest, target)
 
 # Print the score of the random fitted forest
@@ -161,7 +161,7 @@ print(my_forest.score(features_forest, target))
 
 # Compute predictions on our test set features then print the length of the prediction vector
 target = train["Survived"].values
-test_features = test[["Pclass", "Age", "Sex","Fare", 'Group_size', 'SibSp', 'Parch', 'Embarked', 'TitleNum', 'Child', 'Group']].values
+test_features = test[["Pclass", "Age", "Sex","Fare"]].values
 pred_forest = my_forest.predict(test_features)
 print("Length of Prediction Vector: ")
 print(len(pred_forest))
