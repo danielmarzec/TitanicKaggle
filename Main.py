@@ -22,7 +22,7 @@ for i in range(890):
 
 #Create TitleNum column
 train['TitleNum'] = 4
-train['TitleNum'][train['Title'] == 'Mr'] = 0
+train['TitleNum'][train['Title'] == 'Mr'] = 2
 train['TitleNum'][train['Title'] == 'Miss'] = 1
 train['TitleNum'][train['Title'] == 'Ms'] = 1
 train['TitleNum'][train['Title'] == 'Mrs'] = 2
